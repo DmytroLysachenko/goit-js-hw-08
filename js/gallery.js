@@ -65,10 +65,25 @@ const images = [
 ];
 
 const gallery = document.querySelector(".gallery");
-const newImages = images
-  .map(
-    (img) =>
-      `<li class="item"><img src=${img.url} alt=${img.alt} class="image"></li>`
-  )
-  .join("");
-gallery.insertAdjacentHTML("beforeend", newImages);
+for (const { preview, original, description } of images) {
+  const item = document.createElement("li");
+  const link = document.createElement("a");
+  const img = document.createElement("img");
+  item.classList.add("gallery-item");
+  link.classList.add("gallery-link");
+  img.classList.add("gallery-image");
+  img.setAttribute("src", preview);
+  img.setAttribute("data-source", original);
+  img.setAttribute("alt", description);
+  img.setAttribute("width", 360);
+  link.setAttribute("href", original);
+  link.append(img);
+  item.append(link);
+  gallery.append(item);
+}
+
+gallery.addEventListener("click", (event) => {
+  let imgLink = event.target.lastChild.getAttribute("href");
+  let msg = basicLightbox.create(`<img src="${imgLink}">`);
+  msg.show();
+});
