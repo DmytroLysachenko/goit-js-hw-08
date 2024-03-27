@@ -65,6 +65,7 @@ const images = [
 ];
 
 const gallery = document.querySelector(".gallery");
+const newElements = [];
 for (const { preview, original, description } of images) {
   const item = document.createElement("li");
   const link = document.createElement("a");
@@ -78,13 +79,12 @@ for (const { preview, original, description } of images) {
   img.setAttribute("width", 360);
   img.setAttribute("height", 200);
   link.setAttribute("href", original);
-  link.style.display = "block";
-  item.style.display = "block";
   img.style.display = "block";
   link.append(img);
   item.append(link);
-  gallery.append(item);
+  newElements.push(item);
 }
+gallery.append(...newElements);
 
 gallery.addEventListener("click", (event) => {
   if (event.target.nodeName === "LI") {
