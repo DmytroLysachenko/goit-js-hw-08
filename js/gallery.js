@@ -76,14 +76,21 @@ for (const { preview, original, description } of images) {
   img.setAttribute("data-source", original);
   img.setAttribute("alt", description);
   img.setAttribute("width", 360);
+  img.setAttribute("height", 200);
   link.setAttribute("href", original);
+  link.style.display = "block";
+  item.style.display = "block";
+  img.style.display = "block";
   link.append(img);
   item.append(link);
   gallery.append(item);
 }
 
 gallery.addEventListener("click", (event) => {
-  let imgLink = event.target.lastChild.getAttribute("href");
-  let msg = basicLightbox.create(`<img src="${imgLink}">`);
-  msg.show();
+  if (event.target.nodeName === "LI") {
+    let imgLink = event.target.lastChild.getAttribute("href");
+    let msg = basicLightbox.create(`<img src="${imgLink}">`);
+    msg.show();
+  }
+  return;
 });
