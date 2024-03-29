@@ -65,9 +65,9 @@ const images = [
 ];
 
 const gallery = document.querySelector(".gallery");
-const newElements = [];
 
 const createElements = (images) => {
+  const newElements = [];
   for (const { preview, original, description } of images) {
     const item = document.createElement("li");
     const link = document.createElement("a");
