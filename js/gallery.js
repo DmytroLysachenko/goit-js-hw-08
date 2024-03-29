@@ -66,31 +66,41 @@ const images = [
 
 const gallery = document.querySelector(".gallery");
 const newElements = [];
-for (const { preview, original, description } of images) {
-  const item = document.createElement("li");
-  const link = document.createElement("a");
-  const img = document.createElement("img");
-  item.classList.add("gallery-item");
-  link.classList.add("gallery-link");
-  img.classList.add("gallery-image");
-  img.setAttribute("src", preview);
-  img.setAttribute("data-source", original);
-  img.setAttribute("alt", description);
-  img.setAttribute("width", 360);
-  img.setAttribute("height", 200);
-  link.setAttribute("href", original);
-  img.style.display = "block";
-  link.append(img);
-  item.append(link);
-  newElements.push(item);
-}
-gallery.append(...newElements);
+
+const createElements = (images) => {
+  for (const { preview, original, description } of images) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    const img = document.createElement("img");
+    item.classList.add("gallery-item");
+    link.classList.add("gallery-link");
+    img.classList.add("gallery-image");
+    img.setAttribute("src", preview);
+    img.setAttribute("data-source", original);
+    img.setAttribute("alt", description);
+    img.setAttribute("width", "360");
+    img.setAttribute("height", "200");
+    link.setAttribute("href", original);
+    img.style.display = "block";
+    link.append(img);
+    item.append(link);
+    newElements.push(item);
+  }
+  return newElements;
+};
+
+const addElements = (newElements) => gallery.append(...newElements);
+
+addElements(createElements(images));
 
 gallery.addEventListener("click", (event) => {
-  if (event.target.nodeName === "LI") {
-    let imgLink = event.target.lastChild.getAttribute("href");
-    let msg = basicLightbox.create(`<img src="${imgLink}">`);
+  event.preventDefault();
+  if (event.target.nodeName === "IMG") {
+    let msg = basicLightbox.create(
+      `<img src="${event.target.dataset.source}">`
+    );
     msg.show();
   }
-  return;
+  console.log(event.target);
+  console.log(event.currentTarget);
 });
